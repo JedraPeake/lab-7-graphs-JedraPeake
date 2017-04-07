@@ -77,4 +77,13 @@ public interface Graph<V, E> {
      */
     Collection<? extends Edge<E, V>> outgoingEdges(Vertex<V, E> v);
 
+    /**
+     +     * Gets all of the edges of a {@link Vertex}
+     +     * @param v
+     +     * @return Non-{@code null} collection of {@link Edge}s, but possibly empty
+     +     *
+     +     * @throws ClassCastException if the {@link Vertex} implementation is not correct
+     +     */
+    Collection<? extends Edge<E, V>> incidentEdges(Vertex<V, E> v);
+
 }

@@ -16,7 +16,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Immutable
 public final class Flight {
 
-    private final String code;
+//    private final String code;
     private final double cost;
 
     private final Airport departure;
@@ -26,7 +26,7 @@ public final class Flight {
         checkArgument(!Strings.isNullOrEmpty(code), "code == null || \"\"");
         checkArgument(cost >= 0.0, "cost must not be negative");
 
-        this.code = code;
+//        this.code = code;
         this.cost = cost;
 
         this.departure = checkNotNull(departure, "departure == null");
@@ -37,9 +37,9 @@ public final class Flight {
      * Unique flight code for the flight
      * @return Non-{@code null} flight code
      */
-    public String getCode() {
-        return code;
-    }
+//    public String getCode() {
+//        return code;
+//    }
 
     /**
      * Cost of the flight

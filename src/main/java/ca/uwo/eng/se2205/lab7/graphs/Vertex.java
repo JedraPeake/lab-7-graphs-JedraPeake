@@ -49,7 +49,18 @@ public interface Vertex<V, E> {
      * @throws ClassCastException if the {@link Vertex} implementation is not correct
      */
     default Collection<? extends Edge<E, V>> outgoingEdges() {
-        return graph().incomingEdges(this);
+        return graph().outgoingEdges(this);
+    }
+
+    /**
+  +     * Gets all of the edges of a {@link Vertex}
+  +     * @param v
+  +     * @return Non-{@code null} collection of {@link Edge}s, but possibly empty
+  +     *
+  +     * @throws ClassCastException if the {@link Vertex} implementation is not correct
+  +     */
+    default Collection<? extends Edge<E, V>> incidentEdges() {
+            return graph().incidentEdges(this);
     }
 
     /**
