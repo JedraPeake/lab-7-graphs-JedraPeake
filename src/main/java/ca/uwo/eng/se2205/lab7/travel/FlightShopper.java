@@ -1,5 +1,7 @@
 package ca.uwo.eng.se2205.lab7.travel;
 
+import ca.uwo.eng.se2205.lab7.graphs.DirectedGraph;
+
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
@@ -8,8 +10,9 @@ import java.util.*;
  */
 @ParametersAreNonnullByDefault
 public final class FlightShopper {
-    Collection<? extends Airport> airports;
-    List<Flight> flights;
+
+    public DirectedGraph<Airport,Flight> map;
+    public DirGraphFliShop graph;
     //Basically, this is a matter of traversing a graph, where each departure or arrival will be a node, and each flight an edge.
     //You'll typically apply costs to the edges
     // An arrival and departure at the same airport will be connected by an edge whose cost is the layover time (and from a price viewpoint, that edge will normally have a cost of zero).
@@ -24,9 +27,30 @@ public final class FlightShopper {
     public FlightShopper(Collection<? extends Airport> airports, Collection<? extends Flight> flights) {
         // DO NOT CHANGE THE METHOD SIGNATURE
         // Initialize your shopper
-        this.airports = airports;
-        this.flights = (List<Flight>) flights;
-        //loaded airports and flights up here never change!!!
+        AbstractList<Airport> airportList = (AbstractList<Airport>) airports;
+        map = new DirectedGraph<>();
+        for(int i =0; i<airports.size();i++){
+            map.newVertex(airportList.get(i));
+        }
+
+        graph = new DirGraphFliShop();
+        for (int i=0; i<airportList.size();i++){
+            graph.newVertex(airportList.get(i));
+        }
+        AbstractList<Flight> flightsList = (AbstractList<Flight>) flights;
+//        for(int i =0; i<airports.size();i++){
+//            Flight curr = flightsList.get(i);
+//            Airport from = curr.getDeparture();
+//            Airport to = curr.getArrival();
+//            double weight = curr.getCost();
+//            map.newEdge(from,to,weight);
+//        }
+        for(int i =0; i<flightsList.size();i++){
+            Flight curr = flightsList.get(i);
+            String code  = curr.getDeparture().getCode();
+//            graph.newEdgeFs(curr.getDeparture(),curr.getArrival(),curr.getCost());
+        }
+
     }
 
     /**
@@ -62,12 +86,13 @@ public final class FlightShopper {
 
     private List<Flight> getOutgoing(Airport a){
         List<Flight> out = new ArrayList<>();
-        for(Flight f : flights){
-            if(f.getDeparture().equals(a)){
-                out.add(f);
-            }
-        }
-        return out;
+//        for(Flight f : flights){
+//            if(f.getDeparture().equals(a)){
+//                out.add(f);
+//            }
+//        }
+//        return out;
+        return null;
     }
 
 }

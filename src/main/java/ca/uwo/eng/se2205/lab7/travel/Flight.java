@@ -1,7 +1,6 @@
 package ca.uwo.eng.se2205.lab7.travel;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.concurrent.Immutable;
@@ -22,8 +21,9 @@ public final class Flight {
     private final Airport departure;
     private final Airport arrival;
 
-    public Flight(String code, Airport departure, Airport arrival, double cost) {
-        checkArgument(!Strings.isNullOrEmpty(code), "code == null || \"\"");
+//    public Flight(String code, Airport departure, Airport arrival, double cost)
+    public Flight(Airport departure, Airport arrival, double cost){
+//        checkArgument(!Strings.isNullOrEmpty(code), "code == null || \"\"");
         checkArgument(cost >= 0.0, "cost must not be negative");
 
 //        this.code = code;

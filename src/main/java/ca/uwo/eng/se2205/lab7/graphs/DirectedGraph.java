@@ -7,8 +7,8 @@ import java.util.*;
  * Created by PeakeAndSons on 2017-04-03.
  */
 public class DirectedGraph <V,E> implements Graph<V,E> {
-    private Collection<Vertex<V,E>> vertices;
-    private Collection<Edge<E,V>> edges;
+    public Collection<Vertex<V,E>> vertices;
+    public Collection<Edge<E,V>> edges;
     public boolean add;
 
     private class MyArrayList<T> extends AbstractList<T> {
@@ -195,7 +195,7 @@ public class DirectedGraph <V,E> implements Graph<V,E> {
         }
     }
 
-    DirectedGraph(){
+    public DirectedGraph(){
         edges = new MyArrayList<Edge<E,V>>();
         vertices = new ArrayList<>();
     }
@@ -348,4 +348,5 @@ public class DirectedGraph <V,E> implements Graph<V,E> {
             return temp;
         }
     }
+
 }
