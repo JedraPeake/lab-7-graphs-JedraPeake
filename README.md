@@ -14,9 +14,9 @@ The inner Vertex uses:2 hashmaps, 2 arraylists and the element.
 
 ##Q3. Pricing Flights
 ####Graph type used 
-
+DirectGraph
 ####Algorithm decisions
-
+Floyd Warshall, BFS, Djikstras
 ##Q4. Landing a Rover on Mars
 
 ####Graph type used (even if you chose to not use the Graph<> structures from Q1 and Q2)

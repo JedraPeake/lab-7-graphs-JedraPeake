@@ -14,13 +14,13 @@ import java.util.ArrayList;
 public class FlightShopperTest {
     @Test
     void Load(){
-        Airport ATL = new Airport("ATL",203,232);
-        Airport LHR = new Airport("LHR",2653,2367);
-        Airport ORD = new Airport("ORD",263,236);
-        Airport YYZ = new Airport("YYZ",653,367);
-        Airport HND = new Airport("HND",263,237);
-        Airport PVG = new Airport("PVG",453,467);
-        Airport PEK = new Airport("PEK",353,457);
+        Airport ATL = new Airport("ATL",-84.4281006,33.6366997);
+        Airport HND = new Airport("HND",139.7799988,35.5522995);
+        Airport LHR = new Airport("LHR",-0.461941,51.4706001);
+        Airport ORD = new Airport("ORD",-87.9048004,41.9785996);
+        Airport PEK = new Airport("PEK",116.5849991,40.080101);
+        Airport PVG = new Airport("PVG",121.8050003,31.1434002);
+        Airport YYZ = new Airport("YYZ",-79.6306,43.6772003);
 
         AbstractList<Airport> airportList = new ArrayList<>();
         airportList.add(ATL);
