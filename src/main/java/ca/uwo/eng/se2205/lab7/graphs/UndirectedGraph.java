@@ -1,10 +1,7 @@
 package ca.uwo.eng.se2205.lab7.graphs;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by PeakeAndSons on 2017-04-05.
@@ -12,8 +9,194 @@ import java.util.Map;
 public class UndirectedGraph<V,E> implements Graph<V,E> {
     private Collection<Vertex<V,E>> vertices;
     private Collection<Edge<E,V>> edges;
+    public boolean add;
+
+    private class MyArrayList<T> extends AbstractList<T> {
+
+        private int size;
+        private T[] myArray;
+        private int capacity;
+
+        public MyArrayList(){
+            int initialCapacity = 3;
+            capacity = initialCapacity;
+            size = 0;
+            myArray = (T[]) new Object[capacity];
+            add = false;
+        }
+
+        @SuppressWarnings("unchecked")
+        public MyArrayList(List<? extends T> base) {
+            myArray = (T[])base.toArray();
+            size = base.size();
+            capacity = base.size();
+        }
+
+        @SuppressWarnings("unchecked")
+        public MyArrayList(int initialCapacity) {
+            capacity = initialCapacity;
+            size = 0;
+            myArray = (T[]) new Object[capacity];
+        }
+
+        @Override
+        public int size(){return size;}
+
+        @Override
+        public boolean isEmpty(){return size==0;}
+
+        @Override
+        public boolean remove(Object o){
+            int indexOfO = indexOf(o);
+
+            if(indexOfO == -1) {
+                return false;
+            }
+
+            UndirectedEdge edge = (UndirectedEdge) (o);
+            Vertex<V,E>[] verts = edge.endpoints;
+            UndirectedVertex t = (UndirectedVertex) verts[0];
+            UndirectedVertex z = (UndirectedVertex) verts[1];
+            UndirectedEdge temp = (UndirectedEdge) t.outgoing.remove(z);
+            t.outEdges.remove(temp);
+            UndirectedEdge temp2 = (UndirectedEdge) z.incoming.remove(t);
+            z.inEdges.remove(temp2);
+
+            remove(indexOfO);
+
+
+            return true;
+        }
+
+        @Override
+        public T remove(int index)throws IndexOutOfBoundsException{
+            checkIndex(index, size);    //throws.
+
+            T temp = myArray[index];
+
+            for(int i = index + 1; i < size; i++) {
+                myArray[i - 1] = myArray[i];
+            }
+
+            size--;
+            return temp;
+        }
+
+        @Override
+        public int indexOf(Object o){
+            if(o == null) {
+                for (int i = 0; i < size(); i++ ) {
+                    if(myArray[i] == null){
+                        return i;
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < size; i++) {
+                    if(myArray [i] != null && myArray [i].equals(o)){
+                        return i;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        @Override
+        public void add(int i, T e)throws IndexOutOfBoundsException{
+            checkIndex(i,size+1);   //throws exception.
+            checkSize();
+            for(int k=size-1;k>=i;k--){
+                myArray[k+1]=myArray[k];
+            }
+            myArray[i]=e;
+            size++;
+        }
+
+        @Override
+        public boolean add(T e){
+            if(add == false){
+                throw new UnsupportedOperationException();
+            }
+            checkSize();
+            this.myArray[size++] = e;
+            return true;
+        }
+
+        private void checkIndex(int i, int n) throws IndexOutOfBoundsException{
+            if((i<0) || (i >= n))
+                throw new IndexOutOfBoundsException("Illegal index: "+ i);
+        }
+
+        private void checkSize(){
+            if (size() >= capacity && capacity != 0) {
+                T[] newM = myArray;
+                capacity *= 2;
+                myArray = (T[]) new Object[capacity];
+                System.arraycopy(newM, 0, myArray, 0, size());
+            }
+            else if(size() >= capacity && capacity == 0) {
+                capacity = 10;
+                myArray = (T[]) new Object[capacity];
+            }
+        }
+
+        @Override
+        public boolean equals(Object o){
+            if(! (o instanceof List<?>)) {
+                return false;
+            }
+            if(o == this) {
+                return true;
+            }
+
+            List<?> tmp = (List<?>)o;
+
+            if(size() == tmp.size()) {
+                for(int i = 0; i < size(); i++ ) {
+                    if ( get(i) == null && get(i) != tmp.get(i)) {
+                        return false;
+                    } else if (get(i) != null && !(get(i)).equals(tmp.get(i))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("["); //= "[";
+            for( int i =0; i< size; i++) {
+                if(i==0){
+                    sb.append(myArray[i]);
+                }
+                else {
+                    sb.append(", ");
+                    sb.append(myArray[i]);
+                }
+            }
+            return sb +"]";
+        }
+
+        @Override
+        public T get(int index) throws IndexOutOfBoundsException{
+            checkIndex(index,size);     //throws
+            return myArray[index];
+        }
+
+        @Override
+        public T set(int index, T e) throws IndexOutOfBoundsException{
+            checkIndex(index,size);     //throws
+            T temp = myArray[index];
+            myArray[index]=e;
+            return temp;
+        }
+    }
+
     UndirectedGraph(){
-        edges = new ArrayList<>();
+        edges = new MyArrayList<>();
         vertices = new ArrayList<>();
     }
     @Override
@@ -41,7 +224,9 @@ public class UndirectedGraph<V,E> implements Graph<V,E> {
         origin.outEdges.add((Edge<E, V>) temp);
         origin.outgoing.put(u,temp);
         dest.inEdges.add((Edge<E,V>) temp);
+        add = true;
         edges.add(temp);
+        add = false;
         return temp;
     }
 
@@ -75,10 +260,12 @@ public class UndirectedGraph<V,E> implements Graph<V,E> {
         E weight;
         Vertex<V,E> u;
         Vertex<V,E> v;
+        private Vertex<V,E>[] endpoints;
         private UndirectedEdge(Vertex<V,E> st, Vertex<V,E> end, E wght){
             this.u =st;
             this.v = end;
             this.weight = wght;
+            endpoints = (Vertex<V,E>[]) new Vertex[]{u,v};
         }
 
         @Override
@@ -108,19 +295,24 @@ public class UndirectedGraph<V,E> implements Graph<V,E> {
 
         @Override
         public Vertex<V, E> opposite(Vertex<V, E> vertex) {
-            return null;
+            Vertex<V,E>[] endpoints = this.endpoints;
+            if (endpoints[0] == v)
+                return endpoints[1];
+            else// (endpoints[1] == v)
+                return endpoints[0];
         }
     }
 
     private class UndirectedVertex implements Vertex<V,E>{
         V element;
         Collection<Edge<E, V>> outEdges, inEdges;
-        private Map<Vertex<V,E>, Edge<E,V>> outgoing;
+        private Map<Vertex<V,E>, Edge<E,V>> outgoing, incoming;
         private UndirectedVertex(V v){
             this.element = v;
             outEdges = new ArrayList<>();
             inEdges = outEdges;
             outgoing = new HashMap<>();
+            incoming = outgoing;
         }
 
         @Override

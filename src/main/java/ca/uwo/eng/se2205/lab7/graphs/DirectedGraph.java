@@ -307,7 +307,6 @@ public class DirectedGraph <V,E> implements Graph<V,E> {
 
     private class DirectedVertex implements Vertex<V,E>{
         V element;
-
         private Map<Vertex<V,E>, Edge<E,V>> outgoing, incoming;
         Collection<Edge<E, V>> outEdges, inEdges;
         private DirectedVertex(V v){
